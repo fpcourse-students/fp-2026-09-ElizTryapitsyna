@@ -28,14 +28,20 @@ instance Applicative Point3 where
 
   Point3 f g h <*> Point3 x y z = Point3 (f x) (g y) (h z)
 
-todoImpl ''Traversable ''Point3
+instance Traversable Point3 where
+  traverse f (Point3 x y z) = Point3 <$> f x <*> f y <*> f z
 
 -- Через свой traverse и writeInt напишите printSum:
 -- печать компонент первой точки, второй и их суммы, слева направо.
 -- Функции *UnsafeMyIO используйте только для проверки.
 
 printSum :: Point3 Int -> Point3 Int -> MyIO ()
-printSum = todo "printSum"
+printSum p q = 
+  () <$ (traverse writeInt p
+      *> traverse writeInt q
+      *> traverse writeInt total)
+  where 
+    total = (+) <$> p <*> q
 
 
 -- 1.2. Прочитайте, прежде чем писать.
