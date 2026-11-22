@@ -53,13 +53,13 @@ printSum p q =
 --    runMyParser (length <$> anyToken) ["hello", "!"]
 
 answerAssignment :: Maybe ([Token], Assignment)
-answerAssignment = todo "answerAssignment"
+answerAssignment = Just ([";"], Assignment "count" 42)
 
 answerInvalid :: Maybe ([Token], Assignment)
-answerInvalid = todo "answerInvalid"
+answerInvalid = Nothing
 
 answerMapped :: Maybe ([Token], Int)
-answerMapped = todo "answerMapped"
+answerMapped = Just (["!"], 5)
 
 
 -- 1.3. Три операции над парсерами.
