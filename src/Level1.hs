@@ -71,14 +71,14 @@ answerMapped = Just (["!"], 5)
 instance Functor MyParser where
   fmap f (MyParser p) = MyParser \ts -> case p ts of
     Nothing -> Nothing
-    Just (rest, x) -> todo "fmap success"
+    Just (rest, x) -> Just (rest, f x)
 
 instance Applicative MyParser where
   pure x = MyParser \ts -> Just (ts, x)
 
   MyParser pf <*> MyParser px = MyParser \ts -> case pf ts of
     Nothing -> Nothing
-    Just (rest, f) -> case todo "applicative next" of
+    Just (rest, f) -> case px rest of
       Nothing -> Nothing
       Just (rest', x) -> Just (rest', f x)
 
@@ -86,7 +86,7 @@ instance Alternative MyParser where
   empty = MyParser $ const Nothing
 
   MyParser p <|> MyParser q = MyParser \ts -> case p ts of
-    Nothing -> todo "alternative fallback"
+    Nothing -> q ts
     success -> success
 
 -- Через fmap преобразуем числовой токен в натуральное число (включая 0).
