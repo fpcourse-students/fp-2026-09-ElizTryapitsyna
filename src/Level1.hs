@@ -103,7 +103,7 @@ natural = read <$> satisfy decimal
 --   == Just ([], [Assignment "count" 42, Assignment "limit" 10])
 
 parseAssignment :: MyParser Assignment
-parseAssignment = todo "parseAssignment"
+parseAssignment = Assignment <$> identifier <*> (token "=" *> natural)
 
 parseAssignments :: MyParser [Assignment]
-parseAssignments = todo "parseAssignments"
+parseAssignments = many (parseAssignment <* token ";") <* eof
